@@ -89,8 +89,19 @@ class MessageController {
 					log.info("value: " + v.stringValue());
 				});
 
+
 				log.info("att size" + message.attributes().size());
+				message.attributes().forEach((messageSystemAttributeName, s) -> {
+					log.info("name: " + messageSystemAttributeName.toString());
+					log.info("s: " + s);
+				});
+
 				log.info("att size" + message.attributesAsStrings().size());
+				message.attributesAsStrings().forEach((s, s2) -> {
+					log.info(s + ": " + s2);
+				});
+
+
 			}
 
 		} catch (Exception e) {
