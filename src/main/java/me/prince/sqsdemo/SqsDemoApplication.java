@@ -50,6 +50,8 @@ class MessageController {
 			SqsClient sqsClient = SqsClient.builder().region(Region.AP_SOUTHEAST_1).build();
 			Map<String, MessageAttributeValue> attributes = new HashMap<>();
 			attributes.put("a1", MessageAttributeValue.builder().dataType("String").stringValue("ff").build());
+			attributes.put("a2", MessageAttributeValue.builder().dataType("String").stringValue("dd").build());
+
 			SendMessageRequest request = SendMessageRequest.builder()
 					.queueUrl("https://sqs.ap-southeast-1.amazonaws.com/924307141432/hj_sqs.fifo")
 					.messageGroupId("eks")
@@ -77,7 +79,7 @@ class MessageController {
 					.queueUrl("https://sqs.ap-southeast-1.amazonaws.com/924307141432/hj_sqs.fifo")
 					.maxNumberOfMessages(10)
 //					.attributeNamesWithStrings("a1")
-					.messageAttributeNames("a1")
+					.messageAttributeNames("*")
 //					.attributeNames(QueueAttributeName.ALL, QueueAttributeName.valueOf("*"))
 					.waitTimeSeconds(20)
 					.build();
