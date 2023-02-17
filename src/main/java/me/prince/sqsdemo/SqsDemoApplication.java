@@ -76,7 +76,8 @@ class MessageController {
 			ReceiveMessageRequest request = ReceiveMessageRequest.builder()
 					.queueUrl("https://sqs.ap-southeast-1.amazonaws.com/924307141432/hj_sqs.fifo")
 					.maxNumberOfMessages(10)
-					.attributeNames(QueueAttributeName.ALL)
+					.attributeNamesWithStrings("*")
+//					.attributeNames(QueueAttributeName.ALL, QueueAttributeName.valueOf("*"))
 					.waitTimeSeconds(20)
 					.build();
 			List<Message> messages = sqsClient.receiveMessage(request).messages();
