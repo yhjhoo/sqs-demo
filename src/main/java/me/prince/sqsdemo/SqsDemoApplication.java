@@ -88,6 +88,9 @@ class MessageController {
 					log.info("key: " + k);
 					log.info("value: " + v.stringValue());
 				});
+
+				log.info("att size" + message.attributes().size());
+				log.info("att size" + message.attributesAsStrings().size());
 			}
 
 		} catch (Exception e) {
