@@ -53,6 +53,7 @@ class MessageController {
 			SendMessageRequest request = SendMessageRequest.builder()
 					.queueUrl("https://sqs.ap-southeast-1.amazonaws.com/924307141432/hj_sqs.fifo")
 					.messageGroupId("eks")
+					.messageBody("body" + LocalDateTime.now())
 					.messageDeduplicationId(LocalDateTime.now().toString())
 					.messageAttributes(attributes)
 					.build();
