@@ -43,6 +43,8 @@ public class SqsDemoApplication {
 @RestController
 class MessageController {
 	private Logger log = LoggerFactory.getLogger(this.getClass());
+	private String queueUrl = "https://sqs.ap-southeast-1.amazonaws.com/924307141432/hj_sqs.fifo";
+
 	@GetMapping("/send")
 	String sendMessage() {
 		log.info("sendMessage start");
@@ -52,11 +54,12 @@ class MessageController {
 			attributes.put("a1", MessageAttributeValue.builder().dataType("String").stringValue("ff").build());
 			attributes.put("a2", MessageAttributeValue.builder().dataType("String").stringValue("dd").build());
 
+
 			SendMessageRequest request = SendMessageRequest.builder()
-					.queueUrl("https://sqs.ap-southeast-1.amazonaws.com/924307141432/hj_sqs.fifo")
-					.messageGroupId("eks")
-					.messageBody("body" + LocalDateTime.now())
-					.messageDeduplicationId(LocalDateTime.now().toString())
+					.queueUrl(queueUrl)
+//					.messageGroupId("eks")
+					.messageBody("body " + LocalDateTime.now())
+//					.messageDeduplicationId(LocalDateTime.now().toString())
 					.messageAttributes(attributes)
 					.build();
 			sqsClient.sendMessage(request);
@@ -76,7 +79,7 @@ class MessageController {
 			SqsClient sqsClient = SqsClient.builder().region(Region.AP_SOUTHEAST_1).build();
 
 			ReceiveMessageRequest request = ReceiveMessageRequest.builder()
-					.queueUrl("https://sqs.ap-southeast-1.amazonaws.com/924307141432/hj_sqs.fifo")
+					.queueUrl(queueUrl)
 					.maxNumberOfMessages(10)
 //					.attributeNamesWithStrings("a1")
 					.messageAttributeNames("*")
@@ -89,22 +92,8 @@ class MessageController {
 				log.info(message.body());
 
 				message.messageAttributes().forEach((k, v) -> {
-					log.info("key: " + k);
-					log.info("value: " + v.stringValue());
+					log.info("key: " + k + ", value: " + v.stringValue());
 				});
-
-
-				log.info("att size" + message.attributes().size());
-				message.attributes().forEach((messageSystemAttributeName, s) -> {
-					log.info("name: " + messageSystemAttributeName.toString());
-					log.info("s: " + s);
-				});
-
-				log.info("att size" + message.attributesAsStrings().size());
-				message.attributesAsStrings().forEach((s, s2) -> {
-					log.info(s + ": " + s2);
-				});
-
 
 			}
 
